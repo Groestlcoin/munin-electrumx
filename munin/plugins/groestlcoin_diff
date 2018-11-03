@@ -1,0 +1,55 @@
+#!/bin/sh
+# -*- sh -*-
+
+: << =cut
+
+=head1 NAME
+
+groestlcoin_diff - Plugin to monitor groestlcoin daemon.
+
+=head1 CONFIGURATION
+
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+Edit the GROESTLCOIN_CLI setting to specify the location of groestlcoin-cli.
+
+=head1 NOTES
+
+Uses env.GROESTLCOIN_CLI and env.GROESTLCOIN_DATADIR in /etc/munin/plugin-conf.d/groestlcoin
+
+=head1 AUTHOR
+
+shsmith
+
+=head1 LICENSE
+
+GPLv2
+
+=head1 MAGIC MARKERS
+
+ #%# family=auto
+ #%# capabilities=autoconf
+
+=cut
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+	echo 'graph_title groestlcoind difficulty'
+	echo 'graph_args --base 1000 --logarithmic'
+	echo 'graph_vlabel value'
+	echo 'graph_category groestlcoind'
+	echo 'difficulty.label difficulty'
+	echo 'difficulty.type GAUGE'
+	exit 0
+fi
+
+TFILE=/tmp/munin-groestlcoin-diff-$$
+${GROESTLCOIN_CLI} -datadir=$GROESTLCOIN_DATADIR getdifficulty > $TFILE
+
+echo "difficulty.value `cat $TFILE`"
+
+rm $TFILE

@@ -1,0 +1,6 @@
+
+[groestlcoin_*]
+user root
+env.GROESTLCOIN_DATADIR /home/root/.groestlcoin
+env.GROESTLCOIN_CLI /usr/bin/groestlcoin-cli
+env.ELECTRUMX_DATADIR /home/root/.electrumx

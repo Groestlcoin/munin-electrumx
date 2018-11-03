@@ -3,17 +3,17 @@
 
 =head1 NAME
 
-bitcoin_mempool - Plugin to monitor bitcoin daemon.
+groestlcoin_mempool - Plugin to monitor groestlcoin daemon.
 
 =head1 CONFIGURATION
 
-Settings are stored in /etc/munin/plugin-conf.d/bitcoin.
-Edit the BITCOIN_DATADIR setting to specify the location of your bitcoin data directory.
-Edit the BITCOIN_CLI setting to specify the location of bitcoin-cli.
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+Edit the GROESTLCOIN_CLI setting to specify the location of groestlcoin-cli.
 
 =head1 NOTES
 
-Uses env.BITCOIN_CLI and env.BITCOIN_DATADIR in /etc/munin/plugin-conf.d/bitcoin
+Uses env.GROESTLCOIN_CLI and env.GROESTLCOIN_DATADIR in /etc/munin/plugin-conf.d/groestlcoin
 
 =head1 AUTHOR
 
@@ -52,10 +52,10 @@ if ($mode eq 'autoconf') {
 
 if ($mode eq 'config') {
 	print "multigraph mempool_count\n";
-	print "graph_title bitcoind memory pool - transaction counts\n";
+	print "graph_title groestlcoind memory pool - transaction counts\n";
 	print "graph_args --base 1000 -l 0\n";
 	print "graph_vlabel count\n";
-	print "graph_category bitcoind\n";
+	print "graph_category groestlcoind\n";
 	for ($i = 0; $i< @feelimit; $i++) {
 		my $r = range($i);
 		print "range_$feelimit[$i].label $r\n";
@@ -64,10 +64,10 @@ if ($mode eq 'config') {
 	}
 
 	print "multigraph mempool_total\n";
-	print "graph_title bitcoind memory pool - mempool total size\n";
+	print "graph_title groestlcoind memory pool - mempool total size\n";
 	print "graph_args --base 1000 -l 0\n";
 	print "graph_vlabel size total (bytes)\n";
-	print "graph_category bitcoind\n";
+	print "graph_category groestlcoind\n";
 	for ($i = 0; $i< @feelimit; $i++) {
 		my $r = range($i);
 		print "range_$feelimit[$i].label $r\n";
@@ -76,10 +76,10 @@ if ($mode eq 'config') {
 	}
 
 	print "multigraph mempool_fees\n";
-	print "graph_title bitcoind memory pool - pending transaction fees\n";
+	print "graph_title groestlcoind memory pool - pending transaction fees\n";
 	print "graph_args --base 1000 -l 0\n";
 	print "graph_vlabel total (BTC)\n";
-	print "graph_category bitcoind\n";
+	print "graph_category groestlcoind\n";
 	for ($i = 0; $i< @feelimit; $i++) {
 		my $r = range($i);
 		print "range_$feelimit[$i].label $r\n";
@@ -103,7 +103,7 @@ my $size = 0;
 my $fee = 0;
 my $feeperbyte = 0;
 
-open (MP, "$ENV{'BITCOIN_CLI'} -datadir=$ENV{'BITCOIN_DATADIR'} getrawmempool true|") or die "Unable to open pipe from $ENV{'BITCOIN_CLI'}";
+open (MP, "$ENV{'GROESTLCOIN_CLI'} -datadir=$ENV{'GROESTLCOIN_DATADIR'} getrawmempool true|") or die "Unable to open pipe from $ENV{'GROESTLCOIN_CLI'}";
 while(<MP>) {
 	/"size": (\d+)/ and $size = $1;
 	/"fee": (\d*\.\d+)/ and $fee = int($1*1e8 + .5);

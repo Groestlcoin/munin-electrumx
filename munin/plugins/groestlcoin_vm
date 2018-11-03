@@ -5,17 +5,17 @@
 
 =head1 NAME
 
-bitcoin_vm - Plugin to monitor bitcoin daemon.
+groestlcoin_vm - Plugin to monitor groestlcoin daemon.
 
 =head1 CONFIGURATION
 
-Settings are stored in /etc/munin/plugin-conf.d/bitcoin.
-Edit the BITCOIN_DATADIR setting to specify the location of your bitcoin data directory.
-Edit the BITCOIN_CLI setting to specify the location of bitcoin-cli.
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+Edit the GROESTLCOIN_CLI setting to specify the location of groestlcoin-cli.
 
 =head1 NOTES
 
-Uses env.BITCOIN_CLI and env.BITCOIN_DATADIR in /etc/munin/plugin-conf.d/bitcoin
+Uses env.GROESTLCOIN_CLI and env.GROESTLCOIN_DATADIR in /etc/munin/plugin-conf.d/groestlcoin
 
 =head1 AUTHOR
 
@@ -38,10 +38,10 @@ if [ "$1" = "autoconf" ]; then
 fi
 
 if [ "$1" = "config" ]; then
-	echo 'graph_title bitcoind process memory'
+	echo 'graph_title groestlcoind process memory'
 	echo 'graph_args --base 1024 -l 0'
 	echo 'graph_vlabel bytes'
-	echo 'graph_category bitcoind'
+	echo 'graph_category groestlcoind'
 	echo 'vmsize.label VmSize'
 	echo 'vmsize.type GAUGE'
 	echo 'vmsize.cdef vmsize,1024,*'
@@ -54,7 +54,7 @@ if [ "$1" = "config" ]; then
 	exit 0
 fi
 
-pid=`pidof bitcoind`
+pid=`pidof groestlcoind`
 if [ "$pid" = "" ]; then
 	exit 0
 fi

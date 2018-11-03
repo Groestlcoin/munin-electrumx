@@ -9,9 +9,9 @@ electrumx_peer_versions - Plugin to monitor ElectrumX server.
 
 =head1 CONFIGURATION
 
-Settings are stored in /etc/munin/plugin-conf.d/bitcoin.
-Edit the BITCOIN_DATADIR setting to specify the location of your bitcoin data directory.
-Edit the BITCOIN_CLI setting to specify the location of bitcoin-cli.
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+Edit the GROESTLCOIN_CLI setting to specify the location of groestlcoin-cli.
 
 =head1 NOTES
 
@@ -56,7 +56,7 @@ if [ "$uptime" = "" ]; then
 	echo "${ELECTRUMX_RPC} not ready"
 	exit 0
 fi
-	
+
 if [ "$1" = "autoconf" ]; then
 	echo yes
 	exit 0

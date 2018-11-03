@@ -1,0 +1,55 @@
+#!/bin/sh
+# -*- sh -*-
+
+: << =cut
+
+=head1 NAME
+
+groestlcoin_du - Plugin to monitor groestlcoin daemon.
+
+=head1 CONFIGURATION
+
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+
+=head1 NOTES
+
+Uses env.GROESTLCOIN_DATADIR and env.ELECTRUMX_DATADIR in /etc/munin/plugin-conf.d/groestlcoin
+
+=head1 AUTHOR
+
+shsmith
+
+=head1 LICENSE
+
+GPLv2
+
+=head1 MAGIC MARKERS
+
+ #%# family=auto
+ #%# capabilities=autoconf
+
+=cut
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+	echo 'graph_title groestlcoind disk usage'
+	echo 'graph_args --base 1024 -l 0'
+	echo 'graph_vlabel bytes'
+	echo 'graph_category groestlcoind'
+	echo 'groestlcoin.label groestlcoin'
+	echo 'groestlcoin.draw AREASTACK'
+	echo 'electrumx.label electrumx'
+	echo 'electrumx.draw AREASTACK'
+	exit 0
+fi
+
+du -s -b ${GROESTLCOIN_DATADIR}/ | awk '{print "groestlcoin.value " $1}'
+du -s -b ${ELECTRUMX_DATADIR}/ | awk '{print "electrumx.value " $1}'
+
+exit 0
+

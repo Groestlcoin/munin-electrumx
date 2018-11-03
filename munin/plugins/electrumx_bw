@@ -42,12 +42,12 @@ if [ "$1" = "config" ]; then
 	echo 'graph_args --base 1024 -l 0'
 	echo 'graph_vlabel bytes per ${graph_period} recv (-) / sent (+)'
 	echo 'graph_category ElectrumX'
-	echo "bitcoindrecv.type GAUGE"
-	echo "bitcoindrecv.label br"
-	echo "bitcoindrecv.graph no"
-	echo "bitcoindsent.type GAUGE"
-	echo "bitcoindsent.label bc"
-	echo "bitcoindsent.negative bitcoindrecv"
+	echo "groestlcoindrecv.type GAUGE"
+	echo "groestlcoindrecv.label br"
+	echo "groestlcoindrecv.graph no"
+	echo "groestlcoindsent.type GAUGE"
+	echo "groestlcoindsent.label bc"
+	echo "groestlcoindsent.negative groestlcoindrecv"
 	echo "electrumxrecv.type GAUGE"
 	echo "electrumxrecv.label exr"
 	echo "electrumxrecv.graph no"
@@ -70,8 +70,7 @@ pid=`grep pid $TFILE | grep -o '[0-9]*'`
 /usr/sbin/nethogs -t -c 1 -d 10 > $TFILE 2> /dev/null
 
 grep /${pid}/ $TFILE | awk '{print "electrumxsent.value " $2*1024; print "electrumxrecv.value " $3*1024}'
-grep bitcoind $TFILE | awk '{print "bitcoindsent.value " $2*1024; print "bitcoindrecv.value " $3*1024}'
+grep groestlcoind $TFILE | awk '{print "groestlcoindsent.value " $2*1024; print "groestlcoindrecv.value " $3*1024}'
 grep tor $TFILE | awk '{print "torsent.value " $2*1024; print "torrecv.value " $3*1024}'
 
 rm $TFILE
-

@@ -1,0 +1,55 @@
+#!/bin/sh
+# -*- sh -*-
+
+: << =cut
+
+=head1 NAME
+
+groestlcoin_ticker - Plugin to monitor groestlcoin tickers.
+
+=head1 CONFIGURATION
+
+No configuration.
+
+=head1 NOTES
+
+Uses python3.
+
+=head1 AUTHOR
+
+shsmith
+
+=head1 LICENSE
+
+GPLv2
+
+=head1 MAGIC MARKERS
+
+ #%# family=auto
+ #%# capabilities=autoconf
+
+=cut
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+	echo 'graph_title Groestlcoin tickers - USD'
+	echo 'graph_args --base 1000'
+	echo 'graph_scale no'
+	echo 'graph_vlabel USD'
+	echo 'graph_category groestlcoind'
+	echo 'coinmarketcap.label coinmarketcap.com'
+	echo 'coinmarketcap.max 100000'
+	exit 0
+fi
+
+curl -m 10 -L -s 'https://api.coinmarketcap.com/v1/ticker/groestlcoin' | python3 -c '
+import sys, json
+try:
+ j=json.load(sys.stdin); p=j[0]["price_usd"]
+ print("coinmarketcap.value " + str(p))
+except:
+ pass'

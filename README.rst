@@ -1,15 +1,15 @@
 
-Munin-Node plugin to monitor ElectrumX and Bitcoin
+Munin-Node plugin to monitor ElectrumX and Groestlcoin
 --------------------------------------------------
 
-These Munin-Node plugins gather data from your running instance of 
-ElectrumX server and/or Bitcoin daemon.
+These Munin-Node plugins gather data from your running instance of
+ElectrumX server and/or Groestlcoin daemon.
 
-ElectrumX server: 
+ElectrumX server:
     https://github.com/kyuupichan/electrumx
-    
-Bitcoin daemon:
-    https://github.com/bitcoin/bitcoin
+
+Groestlcoin daemon:
+    https://github.com/groestlcoin/groestlcoin
 
 
 Getting Started
@@ -17,7 +17,7 @@ Getting Started
 
 Install munin and apache2.  For Ubuntu systems the commands are::
 
-    sudo apt-get update 
+    sudo apt-get update
     sudo apt-get install munin apache2
 
 The electrumx_bw plugin uses nethogs. To install it::
@@ -27,20 +27,19 @@ The electrumx_bw plugin uses nethogs. To install it::
 Once you have munin up and running, add the following files::
 
  /etc/munin/plugins/
-    bitcoin_blocks
-    bitcoin_bw  
-    bitcoin_conn
-    bitcoin_diff
-    bitcoin_du
-    bitcoin_fee
-    bitcoin_mempool
-    bitcoin_mp
-    bitcoin_mp2
-    bitcoin_peer_versions
-    bitcoin_ticker
-    bitcoin_ticker_bch
-    bitcoin_tx
-    bitcoin_vm
+    groestlcoin_blocks
+    groestlcoin_bw
+    groestlcoin_conn
+    groestlcoin_diff
+    groestlcoin_du
+    groestlcoin_fee
+    groestlcoin_mempool
+    groestlcoin_mp
+    groestlcoin_mp2
+    groestlcoin_peer_versions
+    groestlcoin_ticker
+    groestlcoin_tx
+    groestlcoin_vm
     electrumx_bw
     electrumx_client_versions
     electrumx_err
@@ -54,21 +53,21 @@ Once you have munin up and running, add the following files::
     electrumx_tx
     electrumx_users
 
-These plugins require configuration. 
+These plugins require configuration.
 The configurations are in the following files added to your plugin-conf.d folder.::
 
  /etc/munin/plugin-conf.d/
-    bitcoin
+    groestlcoin
     electrumx
 
-You will need to edit /etc/munin/plugin-conf.d/bitcoin. 
+You will need to edit /etc/munin/plugin-conf.d/groestlcoin.
 *******************************************************
 
-- Adjust the ``BITCOIN_DATADIR`` environment to specify where to find your bitcoin data directory.
-- Adjust the ``BITCOIN_CLI`` environment to specify where to find bitcoin-cli.
+- Adjust the ``GROESTLCOIN_DATADIR`` environment to specify where to find your groestlcoin data directory.
+- Adjust the ``GROESTLCOIN_CLI`` environment to specify where to find groestlcoin-cli.
 - Adjust the ``ELECTRUMX_DATADIR`` environment to specify where to find your electrumx data directory.
 
-You will need to edit /etc/munin/plugin-conf.d/electrumx. 
+You will need to edit /etc/munin/plugin-conf.d/electrumx.
 *********************************************************
 
 - Adjust the ``ELECTRUMX_RPC`` environment to specify where to find electrumx_rpc.py.
@@ -91,18 +90,4 @@ These plugins are working with the following software versions::
  Operating System:   Ubuntu 18.04
  Munin-Node:         2.0.25
  ElectrumX:          1.8.7
- Bitcoin Core:       0.17.0
- Bitcoin ABC:        0.17.2
-
-Live Example
-------------
-
-You can see these plugins in action here:
-    http://vps.hsmiths.com:49001/munin/hsmiths.com/vps.hsmiths.com/
-
-
-=======================================================
-
-**Samuel Smith**  shsmith@socal.rr.com   https://github.com/shsmith
-
-Tip jar: 1CspNS6AFsDbqiocsvqpjiMPrtviRCaXz5
+ Groestlcoin Core:   2.16.3

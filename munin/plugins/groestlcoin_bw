@@ -5,17 +5,17 @@
 
 =head1 NAME
 
-bitcoin_bw - Plugin to monitor bitcoin daemon.
+groestlcoin_bw - Plugin to monitor groestlcoin daemon.
 
 =head1 CONFIGURATION
 
-Settings are stored in /etc/munin/plugin-conf.d/bitcoin.
-Edit the BITCOIN_DATADIR setting to specify the location of your bitcoin data directory.
-Edit the BITCOIN_CLI setting to specify the location of bitcoin-cli.
+Settings are stored in /etc/munin/plugin-conf.d/groestlcoin.
+Edit the GROESTLCOIN_DATADIR setting to specify the location of your groestlcoin data directory.
+Edit the GROESTLCOIN_CLI setting to specify the location of groestlcoin-cli.
 
 =head1 NOTES
 
-Uses env.BITCOIN_CLI and env.BITCOIN_DATADIR in /etc/munin/plugin-conf.d/bitcoin
+Uses env.GROESTLCOIN_CLI and env.GROESTLCOIN_DATADIR in /etc/munin/plugin-conf.d/groestlcoin
 
 =head1 AUTHOR
 
@@ -38,10 +38,10 @@ if [ "$1" = "autoconf" ]; then
 fi
 
 if [ "$1" = "config" ]; then
-	echo 'graph_title bitcoind bandwidth'
+	echo 'graph_title groestlcoind bandwidth'
 	echo 'graph_args --base 1000 -l 0'
 	echo 'graph_vlabel bytes per ${graph_period} recv (-) / sent (+)'
-	echo 'graph_category bitcoind'
+	echo 'graph_category groestlcoind'
 	echo 'bytesrecv.label bytes received'
 	echo 'bytesrecv.type DERIVE'
 	echo 'bytesrecv.min 0'
@@ -53,8 +53,8 @@ if [ "$1" = "config" ]; then
 	exit 0
 fi
 
-TFILE=/tmp/munin-bitcoin-bw-$$
-${BITCOIN_CLI} -datadir=$BITCOIN_DATADIR getnettotals > $TFILE
+TFILE=/tmp/munin-groestlcoin-bw-$$
+${GROESTLCOIN_CLI} -datadir=$GROESTLCOIN_DATADIR getnettotals > $TFILE
 
 echo "bytesrecv.value `grep totalbytesrecv $TFILE | grep -o '[0-9]*'`"
 echo "bytessent.value `grep totalbytessent $TFILE | grep -o '[0-9]*'`"
