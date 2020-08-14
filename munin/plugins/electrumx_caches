@@ -5,7 +5,7 @@
 
 =head1 NAME
 
-electrumx_sub - Plugin to monitor ElectrumX server.
+electrumx_ses - Plugin to monitor ElectrumX server.
 
 =head1 CONFIGURATION
 
@@ -37,16 +37,38 @@ if [ "$1" = "autoconf" ]; then
 fi
 
 if [ "$1" = "config" ]; then
-	echo 'graph_title ElectrumX Subscriptions'
+	echo 'graph_title ElectrumX Caches'
 	echo 'graph_args --base 1000 -l 0'
-	echo 'graph_vlabel count'
+	echo 'graph_vlabel per second'
 	echo 'graph_category ElectrumX'
-	echo 'subs.label Subscriptions'
-	echo 'subs.type GAUGE'
-	echo 'subs.max 1000000'
-	echo 'requests.label Requests'
-	echo 'requests.type GAUGE'
-	echo 'requests.max 10000'
+
+        echo 'history_cache_lookups.label history cache lookups'
+        echo 'history_cache_lookups.type DERIVE'
+        echo 'history_cache_lookups.min 0'
+        echo 'history_cache_hits.label history cache hits'
+        echo 'history_cache_hits.type DERIVE'
+        echo 'history_cache_hits.min 0'
+        echo 'history_cache_entries.label history cache entries'
+        echo 'history_cache_entries.type GAUGE'
+
+        echo 'merkle_cache_lookups.label merkle cache lookups'
+        echo 'merkle_cache_lookups.type DERIVE'
+        echo 'merkle_cache_lookups.min 0'
+        echo 'merkle_cache_hits.label merkle cache hits'
+        echo 'merkle_cache_hits.type DERIVE'
+        echo 'merkle_cache_hits.min 0'
+        echo 'merkle_cache_entries.label merkle cache entries'
+        echo 'merkle_cache_entries.type GAUGE'
+
+        echo 'tx_hashes_cache_lookups.label tx hashes cache lookups'
+        echo 'tx_hashes_cache_lookups.type DERIVE'
+        echo 'tx_hashes_cache_lookups.min 0'
+        echo 'tx_hashes_cache_hits.label tx hashes cache hits'
+        echo 'tx_hashes_cache_hits.type DERIVE'
+        echo 'tx_hashes_cache_hits.min 0'
+        echo 'tx_hashes_cache_entries.label tx hashes cache entries'
+        echo 'tx_hashes_cache_entries.type GAUGE'
+
 	exit 0
 fi
 
@@ -104,13 +126,11 @@ fi
 #    "version": "ElectrumX 1.11.0"
 #}
 
-TFILE=/tmp/munin-electrumx-sub-$$
+TFILE=/tmp/munin-electrumx-reqcounts-$$
 ${ELECTRUMX_RPC} getinfo > $TFILE
 
-subs=`grep \"subs\" $TFILE | grep -o '[0-9]*'`
-echo "subs.value $subs"
-
-pending=`grep pending $TFILE | grep -o '[0-9]*'`
-echo "requests.value $pending"
+grep '\"history cache\"' $TFILE | sed 's/"//g; s/,//g' | awk '{ print "history_cache_lookups.value " $3 "\nhistory_cache_hits.value " $5 "\nhistory_cache_entries.value " $7 }'
+grep '\"merkle cache\"' $TFILE | sed 's/"//g; s/,//g'  | awk '{ print "merkle_cache_lookups.value " $3 "\nmerkle_cache_hits.value " $5 "\nmerkle_cache_entries.value " $7 }'
+grep '\"tx hashes cache\"' $TFILE | sed 's/"//g; s/,//g'  | awk '{ print "tx_hashes_cache_lookups.value " $4 "\ntx_hashes_cache_hits.value " $6 "\ntx_hashes_cache_entries.value " $8 }'
 
 rm $TFILE
